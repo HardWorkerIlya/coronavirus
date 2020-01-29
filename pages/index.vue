@@ -1,40 +1,32 @@
 <template>
   <section class="container">
     <div>
-      <app-logo/>
+      <Map/>
       <h1 class="title">
         coronavirus
       </h1>
       <h2 class="subtitle">
         Nuxt.js project
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
     </div>
   </section>
 </template>
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
+import Map from '~/components/Map.vue'
 
 export default {
   components: {
-    AppLogo
+    AppLogo,
+    Map,
   }
 }
 </script>
 
 <style>
 .container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
