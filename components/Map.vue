@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import world from '../static/wrold.geo'
 
 export default {
   name: 'Map',
@@ -24,7 +25,7 @@ export default {
 
   methods: {
     echartsInit() {
-      // let map = this.$echarts.init(document.getElementById('myChart'))
+      this.$echarts.registerMap('WORLD', world);
       const map = this.$echarts.init(this.$refs.map);
       const option = {
         visualMap: {
@@ -32,9 +33,8 @@ export default {
           min: 500000,
           max: 38000000,
           inRange: {
-            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+            color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
           },
-          text: ['High', 'Low'],           // 文本，默认为数值文本
           calculable: true
         },
         series:  [
@@ -42,18 +42,15 @@ export default {
             name: 'USA PopEstimates',
             type: 'map',
             roam: true,
-            map: 'USA',
+            map: 'WORLD',
             emphasis: {
               label: {
                 show: true
               }
             },
-            textFixed: {
-              Alaska: [20, -20]
-            },
             data:[
-              {name: 'Alabama', value: 4822023},
-              {name: 'Alaska', value: 731449},
+              {name: 'Russia', value: 4822023},
+              {name: 'USA', value: 731449},
               {name: 'Arizona', value: 6553255},
               {name: 'Arkansas', value: 2949131},
               {name: 'California', value: 38041430},
