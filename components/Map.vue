@@ -1,5 +1,5 @@
 <template>
-  <div id="map" ref="map" style="width: 600px; height: 400px"/>
+  <div class="map-container" ref="map" />
 </template>
 
 <script>
@@ -30,7 +30,7 @@ export default {
       const option = {
         visualMap: {
           left: 'right',
-          min: 500000,
+          min: 0,
           max: 38000000,
           inRange: {
             color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
@@ -112,6 +112,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 </style>
