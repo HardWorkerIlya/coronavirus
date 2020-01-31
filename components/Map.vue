@@ -29,11 +29,12 @@ export default {
       const map = this.$echarts.init(this.$refs.map);
       const option = {
         visualMap: {
-          left: 'right',
+          orient: 'horizontal',
+          left: 'center',
           min: 0,
-          max: 38000000,
+          max: 38000,
           inRange: {
-            color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+            color: ['#eeeeee', '#690000'],
           },
           calculable: true
         },
