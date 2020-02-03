@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <div>
-      <Map/>
+      <Map :data="data" />
       <h1 class="title">
         coronavirus
       </h1>
@@ -20,7 +20,27 @@ export default {
   components: {
     AppLogo,
     Map,
-  }
+  },
+
+  data() {
+    return {
+      data: null,
+    };
+  },
+
+  created() {
+    this.getData();
+  },
+
+  methods: {
+    async getData() {
+      // https://docs.google.com/spreadsheets/d/1wQVypefm946ch4XDp37uZ-wartW4V7ILdg-qYiDXUHM/edit#gid=1702794354
+      const proxy = 'https://cors-anywhere.herokuapp.com';
+      const data = await this.$axios.$get(`${proxy}/https://coronavirus.zone/data.json?${Date.now()}`);
+
+      this.data = data
+    }
+  },
 }
 </script>
 

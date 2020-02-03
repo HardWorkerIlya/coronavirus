@@ -36,5 +36,8 @@ module.exports = {
     }
   },
   plugins: ['~plugins/echarts'],
-}
+  modules: [
+    '@nuxtjs/axios',
+  ],
+};
 
