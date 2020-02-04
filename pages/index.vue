@@ -3,11 +3,11 @@
     <div>
       <Map :data="data" />
       <h1 class="title">
-        coronavirus
+        коронавирус
       </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
+<!--      <h2 class="subtitle">-->
+<!--        Nuxt.js project-->
+<!--      </h2>-->
     </div>
   </section>
 </template>
@@ -51,6 +51,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+  overflow: hidden;
 }
 
 .title {
@@ -60,6 +61,9 @@ export default {
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
+  opacity: .5;
+  z-index: 0;
+  line-height: 100px;
 }
 
 .subtitle {
