@@ -58,7 +58,7 @@ export default {
         visualMap: {
           type: 'continuous',
           orient: 'horizontal',
-          text: [ this.maxCases, '' ],
+          // text: [ this.maxCases, '' ],
           left: 16,
           bottom: 12,
           min: 0,
@@ -72,7 +72,8 @@ export default {
             fontSize: 16,
           },
           inRange: {
-            color: ['#eeeeee', '#a9403e'],
+            // color: ['#eeeeee', '#a9403e'],
+            color: ['#e2c1c3', '#863836'],
           },
         },
         tooltip : {
@@ -88,10 +89,10 @@ export default {
             itemStyle: {
               emphasis: {
                 areaColor: '#35495e',
-                // color: '#35495e',
-                opacity: 0.5,
-                // shadowOffsetX: 1,
-                // shadowOffsetY: 2,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowBlur: 20,
+                borderWidth: 0,
               },
             },
             zlevel: 5,
@@ -99,11 +100,6 @@ export default {
               label: {
                 show: false,
               },
-              areaColor: '#35495e',
-              color: '#35495e',
-              opacity: 0.5,
-              shadowOffsetX: 100,
-              shadowOffsetY: 100,
             },
             data: this.compData,
           }
@@ -124,5 +120,6 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  z-index: 1;
 }
 </style>
