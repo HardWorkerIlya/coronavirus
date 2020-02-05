@@ -1,10 +1,14 @@
 <template>
   <section class="container">
-    <div>
+    <h1 class="title">
+      коронавирус
+    </h1>
+    <div class="content-container">
       <Map :data="data" />
-      <h1 class="title">
-        коронавирус
-      </h1>
+      <Table v-if="data"
+             :headers="headers"
+             :items="data"
+             class="table"/>
 <!--      <h2 class="subtitle">-->
 <!--        Nuxt.js project-->
 <!--      </h2>-->
@@ -14,17 +18,33 @@
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
+import Table from '../components/IgTable'
 import Map from '~/components/Map.vue'
 
 export default {
   components: {
     AppLogo,
+    Table,
     Map,
   },
 
   data() {
     return {
       data: null,
+      headers: [
+        {
+          name: 'Страна',
+          value: 'region',
+        },
+        {
+          name: 'Зараженные',
+          value: 'cases',
+        },
+        {
+          name: 'Смерть',
+          value: 'death',
+        },
+      ],
     };
   },
 
@@ -44,7 +64,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
   height: 100vh;
   display: flex;
@@ -52,18 +72,32 @@ export default {
   align-items: center;
   text-align: center;
   overflow: hidden;
-}
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-  opacity: .5;
-  z-index: 0;
-  line-height: 100px;
+  .title {
+    font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
+    display: block;
+    font-weight: 300;
+    font-size: 100px;
+    color: #35495e;
+    letter-spacing: 1px;
+    opacity: .5;
+    z-index: 0;
+    line-height: 100px;
+  }
+
+  .content-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 21px;
+
+    .table {
+      z-index: 2;
+    }
+  }
 }
 
 .subtitle {
