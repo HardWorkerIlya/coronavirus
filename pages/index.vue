@@ -6,6 +6,7 @@
     <div class="content-container">
       <Map :data="data" />
       <Table v-if="data"
+             :height="tableHeight"
              :headers="headers"
              :items="data"
              class="table"/>
@@ -46,6 +47,10 @@ export default {
         },
       ],
     };
+  },
+
+  computed: {
+    tableHeight: () => (document.body.clientHeight - 60),
   },
 
   created() {
