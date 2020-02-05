@@ -14,9 +14,10 @@
         </thead>
       </table>
     </div>
-    <div v-if="items && items.length"
-         class="ig-table-container__body"
-         :class="{ 'with-header': headers.length }">
+    <perfect-scrollbar v-if="items && items.length"
+                       class="ig-table-container__body"
+                       :style="style"
+                       :class="{ 'with-header': headers.length }">
       <table class="ig-table">
         <tbody>
         <tr v-for="(row, rowIdx) in items" :key="`body-row-${rowIdx}`">
@@ -28,42 +29,55 @@
         </tr>
         </tbody>
       </table>
-    </div>
+    </perfect-scrollbar>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'IgTable',
+import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
 
-    props: {
-      headers: {
-        type: Array,
-        default: () => [],
-      },
-      items: {
-        type: Array,
-        default: () => [],
-      },
-      height: {
-        type: Number || String,
-        default: 0,
+export default {
+  name: 'IgTable',
+
+  props: {
+    headers: {
+      type: Array,
+      default: () => [],
+    },
+    items: {
+      type: Array,
+      default: () => [],
+    },
+    height: {
+      type: Number || String,
+      default: 0,
+    }
+  },
+
+  components: {
+    PerfectScrollbar,
+  },
+
+  computed: {
+    columns: vm => {
+      if (vm.headers.length) {
+        return vm.headers.map(el => el.value);
+      } else if (vm.items.length) {
+        return Object.keys(vm.items[0])
       }
+      return [];
     },
-
-    computed: {
-      columns: vm => {
-        if (vm.headers.length) {
-          return vm.headers.map(el => el.value);
-        } else if (vm.items.length) {
-          return Object.keys(vm.items[0])
-        }
-        return [];
-      },
+    style: vm => {
+      if (vm.height) {
+        return { height: `${vm.height - (vm.headers.length ? 60 : 0)}px` };
+      }
+      return {};
     },
-  }
+  },
+}
 </script>
 
+<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css" />
 <style lang="scss">
   .ig-table-container {
     position: relative;

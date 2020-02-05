@@ -50,7 +50,7 @@ export default {
   },
 
   computed: {
-    tableHeight: () => (document.body.clientHeight - 60),
+    tableHeight: () => (document.body.clientHeight - 110),
   },
 
   created() {
