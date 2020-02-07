@@ -11,8 +11,12 @@ const store = () => new Vuex.Store({
     dataList: [],
     map: null,
   },
-  actions: {},
-  mutations: {},
+  actions: {
+    setMap: () => ({ commit }, map) => commit('SET_MAP', map),
+  },
+  mutations: {
+    SET_MAP: (state, map) => (state.map = map),
+  },
 });
 
 export default store

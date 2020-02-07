@@ -4,6 +4,7 @@
 
 <script>
 import world from '../static/wrold.geo'
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'Map',
@@ -29,6 +30,7 @@ export default {
   },
 
   computed: {
+    ...mapState(['isLoading']),
     compData: vm => vm.data && vm.data.reduce((acc, curr) => {
       const value = parseInt(curr.cases);
 
@@ -51,6 +53,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['setMap']),
     echartsInit() {
       this.$echarts.registerMap('WORLD', world);
       const map = this.$echarts.init(this.$refs.map);
@@ -73,7 +76,8 @@ export default {
           },
           inRange: {
             // color: ['#eeeeee', '#a9403e'],
-            color: ['#e2c1c3', '#863836'],
+            // color: ['#e2c1c3', '#863836'],
+            color: ['#ffe3e5', '#ee4b4a', '#e20100', '#863836'],
           },
         },
         tooltip : {
@@ -107,6 +111,15 @@ export default {
       };
 
       map.setOption(option);
+      this.setMap(map);
+      // map.on('mousemove', function (params) {
+      //   console.log(params);
+      //   map.dispatchAction({
+      //     type: 'mapSelect',
+      //     dataIndex: params.dataIndex,
+      //     name: params.name,
+      //   });
+      // });
     },
   },
 }
