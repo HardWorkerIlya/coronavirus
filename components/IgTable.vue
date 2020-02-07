@@ -20,7 +20,10 @@
                        :class="{ 'with-header': headers.length }">
       <table class="ig-table">
         <tbody>
-        <tr v-for="(row, rowIdx) in items" :key="`body-row-${rowIdx}`">
+        <tr v-for="(row, rowIdx) in items"
+            @mouseover="rowOver(row)"
+            @mouseout="rowOut(row)"
+            :key="`body-row-${rowIdx}`">
           <td v-for="(col, colIdx) in columns"
               :key="`body-td-${colIdx}`"
               class="ig-table__td">
@@ -72,6 +75,15 @@ export default {
         return { height: `${vm.height - (vm.headers.length ? 60 : 0)}px` };
       }
       return {};
+    },
+  },
+
+  methods: {
+    rowOver(row) {
+      console.log(row);
+    },
+    rowOut(row) {
+      console.log(row);
     },
   },
 }
