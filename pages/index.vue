@@ -83,11 +83,12 @@ export default {
     display: block;
     font-weight: 300;
     font-size: 100px;
+    line-height: 100px;
     color: #35495e;
     letter-spacing: 1px;
     opacity: .5;
     z-index: 0;
-    line-height: 100px;
+    filter: blur(5px);
   }
 
   .content-container {
