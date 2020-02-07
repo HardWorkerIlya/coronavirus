@@ -21,8 +21,8 @@
       <table class="ig-table">
         <tbody>
         <tr v-for="(row, rowIdx) in items"
-            @mouseover="rowOver(row)"
-            @mouseout="rowOut(row)"
+            @mouseover="rowOver(row, rowIdx)"
+            @mouseout="rowOut(row, rowIdx)"
             :key="`body-row-${rowIdx}`">
           <td v-for="(col, colIdx) in columns"
               :key="`body-td-${colIdx}`"
@@ -38,6 +38,7 @@
 
 <script>
 import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'IgTable',
@@ -62,6 +63,7 @@ export default {
   },
 
   computed: {
+    ...mapState(['isReadyMap', 'map']),
     columns: vm => {
       if (vm.headers.length) {
         return vm.headers.map(el => el.value);
@@ -79,11 +81,21 @@ export default {
   },
 
   methods: {
-    rowOver(row) {
-      console.log(row);
+    rowOver(row, idx) {
+      if (this.isReadyMap) {
+        this.map.dispatchAction({
+          type: 'highlight',
+          dataIndex: idx,
+        });
+      }
     },
-    rowOut(row) {
-      console.log(row);
+    rowOut(row, idx) {
+      if (this.isReadyMap) {
+        this.map.dispatchAction({
+          type: 'downplay',
+          dataIndex: idx,
+        });
+      }
     },
   },
 }

@@ -19,7 +19,7 @@
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
-import Table from '../components/IgTable'
+import Table from '../components/Table'
 import Map from '~/components/Map.vue'
 
 export default {
