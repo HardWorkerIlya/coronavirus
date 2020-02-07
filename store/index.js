@@ -12,10 +12,20 @@ const store = () => new Vuex.Store({
     map: null,
   },
   actions: {
-    setMap: () => ({ commit }, map) => commit('SET_MAP', map),
+    setMap({ commit }, map) {
+      commit('SET_MAP', map)
+    },
+    setReady({ commit }, ready) {
+      commit('SET_READY', ready)
+    },
   },
   mutations: {
-    SET_MAP: (state, map) => (state.map = map),
+    SET_MAP(state, map) {
+      state.map = map
+    },
+    SET_READY(state, ready) {
+      state.isReadyMap = ready
+    },
   },
 });
 

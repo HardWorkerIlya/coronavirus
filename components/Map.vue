@@ -31,12 +31,12 @@ export default {
 
   computed: {
     ...mapState(['isLoading']),
-    compData: vm => vm.data && vm.data.reduce((acc, curr) => {
+    compData: vm => vm.data && vm.data.reduce((acc, curr, idx) => {
       const value = parseInt(curr.cases);
 
       if (value > vm.maxCases) vm.maxCases = value;
       if (value > vm.prevMaxCases && value < vm.maxCases) vm.prevMaxCases = value;
-      acc.push({ name: curr.region, value });
+      acc.push({ name: curr.region, value , id: idx });
 
       return acc;
     }, []),
@@ -53,7 +53,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['setMap']),
+    ...mapActions(['setMap', 'setReady']),
     echartsInit() {
       this.$echarts.registerMap('WORLD', world);
       const map = this.$echarts.init(this.$refs.map);
@@ -112,7 +112,8 @@ export default {
 
       map.setOption(option);
       this.setMap(map);
-      // map.on('mousemove', function (params) {
+      this.setReady(true);
+      // map.on('mouseover', function (params) {
       //   console.log(params);
       //   map.dispatchAction({
       //     type: 'mapSelect',
