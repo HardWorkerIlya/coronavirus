@@ -32,7 +32,8 @@ export default {
   computed: {
     ...mapState(['isLoading']),
     compData: vm => vm.data && vm.data.reduce((acc, curr, idx) => {
-      const value = parseInt(curr.cases);
+      // const value = parseInt(curr.cases);
+      const value = parseInt(curr.confirmed);
 
       if (value > vm.maxCases) vm.maxCases = value;
       if (value > vm.prevMaxCases && value < vm.maxCases) vm.prevMaxCases = value;

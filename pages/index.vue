@@ -4,11 +4,12 @@
       коронавирус
     </h1>
     <div class="content-container">
-      <Map :data="data" />
+      <Map :data="currentData" />
       <Table v-if="data"
              :height="tableHeight"
              :headers="headers"
              :items="data"
+             show-summary
              class="table"/>
 <!--      <h2 class="subtitle">-->
 <!--        Nuxt.js project-->
@@ -18,13 +19,11 @@
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
 import Table from '../components/Table'
 import Map from '~/components/Map.vue'
 
 export default {
   components: {
-    AppLogo,
     Table,
     Map,
   },
@@ -32,6 +31,7 @@ export default {
   data() {
     return {
       data: null,
+      currentData: null,
       headers: [
         {
           name: 'Страна',
@@ -59,10 +59,16 @@ export default {
 
   methods: {
     async getData() {
-      // https://docs.google.com/spreadsheets/d/1wQVypefm946ch4XDp37uZ-wartW4V7ILdg-qYiDXUHM/edit#gid=1702794354
       const proxy = 'https://cors-anywhere.herokuapp.com';
+      const currentData = await this.$axios.$get(`${proxy}/https://corona-api.herokuapp.com/current`);
+      console.log(currentData);
+
+      this.currentData = Object.keys(currentData)
+        .reduce((acc, curr) => (curr !== 'ts' && acc.push({ region: curr, ...currentData[curr]}), acc), []);
+      // https://docs.google.com/spreadsheets/d/1wQVypefm946ch4XDp37uZ-wartW4V7ILdg-qYiDXUHM/edit#gid=1702794354
       const data = await this.$axios.$get(`${proxy}/https://coronavirus.zone/data.json?${Date.now()}`);
 
+      // this.data = data
       this.data = data
     }
   },

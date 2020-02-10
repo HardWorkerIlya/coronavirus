@@ -15,9 +15,14 @@
       </table>
     </div>
     <perfect-scrollbar v-if="items && items.length"
+                       ref="scroll"
                        class="ig-table-container__body"
                        :style="style"
-                       :class="{ 'with-header': headers.length }">
+                       :class="{ 'with-header': headers.length }"
+                       @ps-y-reach-start="reachStart"
+                       @ps-y-reach-end="reachEnd"
+                       @ps-scroll-up="scrollUp"
+                       @ps-scroll-down="scrollDown">
       <table class="ig-table">
         <tbody>
         <tr v-for="(row, rowIdx) in items"
@@ -55,11 +60,22 @@ export default {
     height: {
       type: Number || String,
       default: 0,
-    }
+    },
+    showSummary: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   components: {
     PerfectScrollbar,
+  },
+
+  data() {
+    return {
+      shadowHeader: false,
+      shadowFooter: false,
+    };
   },
 
   computed: {
@@ -80,6 +96,10 @@ export default {
     },
   },
 
+  // created() {
+  //   if (this.showSummary && )
+  // },
+
   methods: {
     rowOver(row, idx) {
       if (this.isReadyMap) {
@@ -97,6 +117,18 @@ export default {
         });
       }
     },
+    scrollUp() {
+      this.shadowFooter = true;
+    },
+    scrollDown() {
+      this.shadowHeader = true;
+    },
+    reachStart() {
+      this.shadowHeader = true;
+    },
+    reachEnd() {
+      this.shadowFooter = false;
+    },
   },
 }
 </script>
@@ -111,6 +143,7 @@ export default {
     -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
     -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
     width: 300px;
+    background-color: rgba(255, 255, 255, 0.75);
 
     &.with-header {
       padding-top: 60px;
