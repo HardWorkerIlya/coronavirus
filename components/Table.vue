@@ -1,7 +1,9 @@
 <template>
   <div class="ig-table-container"
        :class="{ 'with-header': headers && headers.length }">
-    <div v-if="headers && headers.length" class="ig-table-container__head">
+    <div v-if="headers && headers.length"
+         :class="{ shadow: showSummary && shadowHeader }"
+         class="ig-table-container__head">
       <table class="ig-table">
         <thead>
         <tr>
@@ -124,7 +126,7 @@ export default {
       this.shadowHeader = true;
     },
     reachStart() {
-      this.shadowHeader = true;
+      this.shadowHeader = false;
     },
     reachEnd() {
       this.shadowFooter = false;
@@ -178,6 +180,11 @@ export default {
       width: 100%;
       top: 0;
       left: 0;
+
+      &.shadow {
+        box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+      }
     }
   }
 </style>
