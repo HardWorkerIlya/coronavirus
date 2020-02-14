@@ -4,11 +4,11 @@
       коронавирус
     </h1>
     <div class="content-container">
-      <Map :data="currentData" />
-      <Table v-if="currentData"
+      <Map :data="entityData" />
+      <Table v-if="entityData"
              :height="tableHeight"
              :headers="headers"
-             :items="currentData"
+             :items="entityData"
              show-summary
              class="table"/>
 <!--      <h2 class="subtitle">-->
@@ -21,6 +21,7 @@
 <script>
 import Table from '../components/Table'
 import Map from '~/components/Map.vue'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -30,8 +31,6 @@ export default {
 
   data() {
     return {
-      data: null,
-      currentData: null,
       headers: [
         {
           name: 'Страна',
@@ -50,6 +49,7 @@ export default {
   },
 
   computed: {
+    ...mapState(['entityData']),
     tableHeight: () => (document.body.clientHeight - 110),
   },
 
@@ -58,19 +58,7 @@ export default {
   },
 
   methods: {
-    async getData() {
-      const proxy = 'https://cors-anywhere.herokuapp.com';
-      const currentData = await this.$axios.$get(`${proxy}/https://covid2019-api.herokuapp.com/current`);
-      console.log(currentData);
-
-      this.currentData = Object.keys(currentData)
-        .reduce((acc, curr) => (curr !== 'ts' && acc.push({ region: curr, ...currentData[curr]}), acc), []);
-      // https://docs.google.com/spreadsheets/d/1wQVypefm946ch4XDp37uZ-wartW4V7ILdg-qYiDXUHM/edit#gid=1702794354
-      const data = await this.$axios.$get(`${proxy}/https://coronavirus.zone/data.json?${Date.now()}`);
-
-      // this.data = data
-      this.data = data
-    }
+    ...mapActions(['getData']),
   },
 }
 </script>
@@ -83,6 +71,8 @@ export default {
   align-items: center;
   text-align: center;
   overflow: hidden;
+  background: rgb(11,31,43);
+  background: radial-gradient(circle, rgba(11,31,43,1) 58%, rgba(6,28,34,1) 100%);
 
   .title {
     font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */

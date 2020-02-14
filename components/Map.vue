@@ -78,7 +78,8 @@ export default {
           inRange: {
             // color: ['#eeeeee', '#a9403e'],
             // color: ['#e2c1c3', '#863836'],
-            color: ['#ffe3e5', '#ee4b4a', '#e20100', '#863836'],
+            // color: ['#ffe3e5', '#ee4b4a', '#e20100', '#863836'],
+            color: ['#ffe3e5', '#ee4b4a', '#e20100', '#de1621'],
           },
         },
         tooltip : {
