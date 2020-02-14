@@ -91,6 +91,8 @@ export default {
             type: 'map',
             roam: true,
             map: 'WORLD',
+            left: 300,
+            zoom: 0.9,
             itemStyle: {
               emphasis: {
                 areaColor: '#35495e',
@@ -100,7 +102,6 @@ export default {
                 borderWidth: 0,
               },
             },
-            zlevel: 5,
             emphasis: {
               label: {
                 show: false,

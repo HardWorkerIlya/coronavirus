@@ -5,10 +5,10 @@
     </h1>
     <div class="content-container">
       <Map :data="currentData" />
-      <Table v-if="data"
+      <Table v-if="currentData"
              :height="tableHeight"
              :headers="headers"
-             :items="data"
+             :items="currentData"
              show-summary
              class="table"/>
 <!--      <h2 class="subtitle">-->
@@ -39,11 +39,11 @@ export default {
         },
         {
           name: 'Зараженные',
-          value: 'cases',
+          value: 'confirmed',
         },
         {
           name: 'Смерть',
-          value: 'death',
+          value: 'deaths',
         },
       ],
     };
@@ -60,7 +60,7 @@ export default {
   methods: {
     async getData() {
       const proxy = 'https://cors-anywhere.herokuapp.com';
-      const currentData = await this.$axios.$get(`${proxy}/https://corona-api.herokuapp.com/current`);
+      const currentData = await this.$axios.$get(`${proxy}/https://covid2019-api.herokuapp.com/current`);
       console.log(currentData);
 
       this.currentData = Object.keys(currentData)
