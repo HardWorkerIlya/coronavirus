@@ -9,7 +9,7 @@
              :height="tableHeight"
              :headers="headers"
              :items="entityData"
-             show-summary
+             :summary="entityTotal"
              class="table"/>
 <!--      <h2 class="subtitle">-->
 <!--        Nuxt.js project-->
@@ -49,7 +49,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['entityData']),
+    ...mapState(['entityData', 'entityTotal']),
     tableHeight: () => (document.body.clientHeight - 110),
   },
 

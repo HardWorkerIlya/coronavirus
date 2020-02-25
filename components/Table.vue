@@ -2,7 +2,7 @@
   <div class="ig-table-container"
        :class="{ 'with-header': headers && headers.length }">
     <div v-if="headers && headers.length"
-         :class="{ shadow: showSummary && shadowHeader }"
+         :class="{ shadow: shadowHeader }"
          class="ig-table-container__head">
       <table class="ig-table">
         <thead>
@@ -20,6 +20,7 @@
                        ref="scroll"
                        class="ig-table-container__body"
                        :style="style"
+                       :options="options"
                        :class="{ 'with-header': headers.length }"
                        @ps-y-reach-start="reachStart"
                        @ps-y-reach-end="reachEnd"
@@ -40,6 +41,21 @@
         </tbody>
       </table>
     </perfect-scrollbar>
+    <div v-if="hasSummary && headers.length"
+         :class="{ shadow: hasSummary && shadowFooter }"
+         class="ig-table-container__footer">
+      <table class="ig-table">
+        <tbody>
+          <tr>
+            <td v-for="(col, index) in columns"
+                :key="`footer-column-${index}`"
+                class="ig-table__td">
+              {{ summary[col] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -63,9 +79,9 @@ export default {
       type: Number || String,
       default: 0,
     },
-    showSummary: {
-      type: Boolean,
-      default: false,
+    summary: {
+      type: Object,
+      default: () => {},
     },
   },
 
@@ -76,7 +92,12 @@ export default {
   data() {
     return {
       shadowHeader: false,
-      shadowFooter: false,
+      shadowFooter: true,
+      options: {
+        wheelSpeed: 1,
+        suppressScrollX: true,
+        scrollYMarginOffset: 20,
+      },
     };
   },
 
@@ -90,17 +111,16 @@ export default {
       }
       return [];
     },
+    hasSummary: vm => Object.entries(vm.summary).length !== 0,
+    headerHeight: vm => vm.headers.length ? 60 : 0,
+    footerHeight: vm => vm.hasSummary ? 60 : 0,
     style: vm => {
       if (vm.height) {
-        return { height: `${vm.height - (vm.headers.length ? 60 : 0)}px` };
+        return { height: `${vm.height - vm.headerHeight - vm.footerHeight - 20}px` };
       }
       return {};
     },
   },
-
-  // created() {
-  //   if (this.showSummary && )
-  // },
 
   methods: {
     rowOver(row, idx) {
@@ -182,9 +202,29 @@ export default {
       left: 0;
 
       &.shadow {
-        box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
         -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
       }
+    }
+
+    .ig-table-container__footer {
+      &.shadow {
+        -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .ig-table-container__body {
+      &.shadow {
+        -moz-box-shadow: 0 -20px 15px -5px rgba(0, 0, 0, 0.1) inset;
+        box-shadow: 0 -20px 15px -5px rgba(0, 0, 0, 0.1) inset;
+      }
+    }
+
+    .ps__rail-y.ps--clicking,
+    .ps__rail-y:focus,
+    .ps__rail-y:hover {
+      background-color: transparent;
     }
   }
 </style>

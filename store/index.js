@@ -60,6 +60,7 @@ const store = () => new Vuex.Store({
         processed = Object.keys(data)
           .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr.replace(/_/g, ' '), ...data[curr] }), acc), []);
       }
+      processed.sort((a, b) => b.confirmed - a.confirmed);
 
       commit('SET_DATA', processed);
     },
