@@ -11,6 +11,7 @@ const store = () => new Vuex.Store({
     dataList: [],
     map: null,
     entityData: null,
+    entityTotal: null,
     proxy: 'https://cors-anywhere.herokuapp.com',
   },
   actions: {
@@ -21,12 +22,14 @@ const store = () => new Vuex.Store({
       commit('SET_READY', ready)
     },
     async getData({ state, dispatch }) {
-      let data;
+      let data, total;
 
       try {
         data = await this.$axios.$get(`${state.proxy}/https://covid2019-api.herokuapp.com/current?${Date.now()}`);
+        total = await this.$axios.$get(`${state.proxy}/https://covid2019-api.herokuapp.com/total?${Date.now()}`);
 
-        dispatch('processData', data)
+        dispatch('processData', data);
+        dispatch('processTotal', total);
       } catch (e) {
         console.log(e);
         dispatch('getReserveData');
@@ -38,7 +41,8 @@ const store = () => new Vuex.Store({
       try {
         data = await this.$axios.$get(`${state.proxy}/https://coronavirus.zone/data.json?${Date.now()}`);
 
-        dispatch('processData', data)
+        dispatch('processData', data);
+        dispatch('processTotal', data);
       } catch (e) {
         console.log(e);
       }
@@ -48,16 +52,31 @@ const store = () => new Vuex.Store({
 
       if (Array.isArray(data))  {
         processed = data.map(item => ({
-          region: item.region,
+          region: item.region.replace(/_/g, ' '),
           confirmed: item.cases,
           deaths: item.death,
         }));
       } else {
         processed = Object.keys(data)
-          .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr, ...data[curr] }), acc), []);
+          .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr.replace(/_/g, ' '), ...data[curr] }), acc), []);
       }
 
       commit('SET_DATA', processed);
+    },
+    processTotal({ commit }, total) {
+      let processed;
+
+      if (Array.isArray(total))  {
+        processed = {
+          region: '',
+          confirmed: total.reduce((acc, curr) => (acc += parseInt(curr.cases, 10), acc), 0),
+          deaths: total.reduce((acc, curr) => (acc += parseInt(curr.death, 10), acc), 0),
+        };
+      } else {
+        processed = { ...total, region: '' };
+      }
+
+      commit('SET_TOTAL', processed);
     },
   },
   mutations: {
@@ -69,6 +88,9 @@ const store = () => new Vuex.Store({
     },
     SET_DATA(state, data) {
       state.entityData = data
+    },
+    SET_TOTAL(state, total) {
+      state.entityTotal = total
     },
   },
 });
