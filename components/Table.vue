@@ -5,6 +5,7 @@
          :class="{ shadow: shadowHeader }"
          class="ig-table-container__head">
       <table class="ig-table">
+        <Colgroup :columns="columnSizes" />
         <thead>
         <tr>
           <th v-for="(col, index) in headers"
@@ -27,6 +28,7 @@
                        @ps-scroll-up="scrollUp"
                        @ps-scroll-down="scrollDown">
       <table class="ig-table">
+        <Colgroup :columns="columnSizes" />
         <tbody>
         <tr v-for="(row, rowIdx) in items"
             @mouseover="rowOver(row, rowIdx)"
@@ -45,6 +47,7 @@
          :class="{ shadow: hasSummary && shadowFooter }"
          class="ig-table-container__footer">
       <table class="ig-table">
+        <Colgroup :columns="columnSizes" />
         <tbody>
           <tr>
             <td v-for="(col, index) in columns"
@@ -62,6 +65,7 @@
 <script>
 import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
 import { mapState, mapActions } from 'vuex';
+import Colgroup from './Colgroup';
 
 export default {
   name: 'IgTable',
@@ -83,10 +87,15 @@ export default {
       type: Object,
       default: () => {},
     },
+    columnSizes: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   components: {
     PerfectScrollbar,
+    Colgroup,
   },
 
   data() {

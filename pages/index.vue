@@ -10,6 +10,7 @@
              :headers="headers"
              :items="entityData"
              :summary="entityTotal"
+             :column-sizes="[160, 70, 70]"
              class="table"/>
 <!--      <h2 class="subtitle">-->
 <!--        Nuxt.js project-->
