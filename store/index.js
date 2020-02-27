@@ -58,7 +58,7 @@ const store = () => new Vuex.Store({
         }));
       } else {
         processed = Object.keys(data)
-          .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr.replace(/_/g, ' '), ...data[curr] }), acc), []);
+          .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr.includes('China') ? 'China' : curr.replace(/_/g, ' '), ...data[curr] }), acc), []);
       }
       processed.sort((a, b) => b.confirmed - a.confirmed);
 
