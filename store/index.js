@@ -1,7 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { countryNames } from '../static/countryList';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
 
 const store = () => new Vuex.Store({
 
@@ -52,13 +54,16 @@ const store = () => new Vuex.Store({
 
       if (Array.isArray(data))  {
         processed = data.map(item => ({
-          region: item.region.replace(/_/g, ' '),
+          region: countryNames[item.region.replace(/_/g, ' ')],
           confirmed: item.cases,
           deaths: item.death,
         }));
       } else {
         processed = Object.keys(data)
-          .reduce((acc, curr) => (!['ts', 'dt'].includes(curr) && acc.push({ region: curr.includes('China') ? 'China' : curr.replace(/_/g, ' '), ...data[curr] }), acc), []);
+          .reduce((acc, curr) => (
+              !['ts', 'dt'].includes(curr)
+              && acc.push({ region: countryNames[curr.replace(/_/g, ' ')], ...data[curr] }
+            ), acc), []);
       }
       processed.sort((a, b) => b.confirmed - a.confirmed);
 
