@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { countryNames } from '../static/countryList';
+import { getCodeByName, getNameByCode } from '../static/countryList';
 
 Vue.use(Vuex);
 
@@ -53,17 +53,34 @@ const store = () => new Vuex.Store({
       let processed;
 
       if (Array.isArray(data))  {
-        processed = data.map(item => ({
-          region: countryNames[item.region.replace(/_/g, ' ')],
-          confirmed: item.cases,
-          deaths: item.death,
-        }));
+        processed = data.map(item => {
+          const code = getCodeByName[item.region.replace(/_/g, ' ')];
+          const region = getNameByCode[code];
+
+          return {
+            code,
+            region,
+            confirmed: item.cases,
+            deaths: item.death,
+          }
+        });
       } else {
         processed = Object.keys(data)
-          .reduce((acc, curr) => (
-              !['ts', 'dt'].includes(curr)
-              && acc.push({ region: countryNames[curr.replace(/_/g, ' ')], ...data[curr] }
-            ), acc), []);
+          .reduce((acc, curr) => {
+            const code = getCodeByName[curr.replace(/_/g, ' ')];
+            const region = getNameByCode[code];
+            console.log(code, region);
+
+            if (!['ts', 'dt'].includes(curr)) {
+              acc.push({
+                ...data[curr],
+                code,
+                region,
+              })
+            }
+
+            return acc;
+          }, []);
       }
       processed.sort((a, b) => b.confirmed - a.confirmed);
 
