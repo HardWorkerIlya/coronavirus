@@ -54,7 +54,7 @@ const store = () => new Vuex.Store({
 
       if (Array.isArray(data))  {
         processed = data.map(item => {
-          const code = getCodeByName[item.region.replace(/_/g, ' ')];
+          const code = getCodeByName[item.region.replace(/_/g, ' ')] || 'OTHER';
           const region = getRuNameByCode[code];
 
           return {
