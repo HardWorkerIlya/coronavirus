@@ -68,7 +68,7 @@ import { mapState, mapActions } from 'vuex';
 import Colgroup from './Colgroup';
 
 export default {
-  name: 'IgTable',
+  name: 'Table',
 
   props: {
     headers: {
