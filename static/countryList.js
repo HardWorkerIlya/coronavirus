@@ -63,6 +63,7 @@ export const getCodeByName = {
   'Cuba': 'CU',
   'Curaçao': 'CW',
   'Cyprus': 'CY',
+  'Northern Cyprus': 'CY',
   'Czech Republic': 'CZ',
   'Côte d\'Ivoire': 'CI',
   'Ivory Coast': 'CI',
