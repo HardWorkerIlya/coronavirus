@@ -56,9 +56,11 @@ const store = () => new Vuex.Store({
         processed = data.map(item => {
           const code = getCodeByName[item.region.replace(/_/g, ' ')] || 'OTHER';
           const region = getRuNameByCode[code];
+          const name = getNameByCode[code];
 
           return {
             code,
+            name,
             region,
             confirmed: item.cases,
             deaths: item.death,
@@ -69,11 +71,13 @@ const store = () => new Vuex.Store({
           .reduce((acc, curr) => {
             const code = getCodeByName[curr.replace(/_/g, ' ')];
             const region = getRuNameByCode[code];
+            const name = getNameByCode[code];
 
             if (!['ts', 'dt'].includes(curr)) {
               acc.push({
                 ...data[curr],
                 code,
+                name,
                 region,
               })
             }
