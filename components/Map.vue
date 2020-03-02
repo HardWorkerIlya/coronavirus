@@ -5,6 +5,7 @@
 <script>
 import world from '../static/wrold.geo'
 import { mapState, mapActions } from 'vuex';
+import { getCodeByName, getRuNameByCode } from '../static/countryList';
 
 export default {
   name: 'Map',
@@ -37,7 +38,7 @@ export default {
 
       if (value > vm.maxCases) vm.maxCases = value;
       if (value > vm.prevMaxCases && value < vm.maxCases) vm.prevMaxCases = value;
-      acc.push({ name: curr.region, value , id: idx });
+      acc.push({ ...curr, value , id: idx });
 
       return acc;
     }, []),
@@ -84,7 +85,11 @@ export default {
         },
         tooltip : {
           trigger: 'item',
-          formatter: (p) => `${p.name}<br/>${p.value || 0}`,
+          formatter: (p) => {
+            if (p.data) return `${p.data.region}<br/>${p.data.confirmed || 0}<br/>${p.data.deaths || 0}`;
+            else if (!getRuNameByCode[getCodeByName[p.name]]) console.log(p);
+            else return`${getRuNameByCode[getCodeByName[p.name]]}`;
+          },
         },
         series:  [
           {
